@@ -1,0 +1,14 @@
+## Interface: 80000
+## Title: TrueChatFrameHistory
+## Notes: Saves and restores everything in ChatFrames
+## Version: 3
+## Author: Kanegasi
+## SavedVariables: TCFH_SV
+## SavedVariablesPerCharacter: TCFH_DB
+
+libs\LibStub.lua
+libs\CallbackHandler-1.0.lua
+libs\LibSharedMedia-3.0.lua
+
+tcfhdisplay.lua
+tcfhcore.lua

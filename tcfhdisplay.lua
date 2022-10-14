@@ -1,0 +1,61 @@
+local a,t=...
+function t.showdisplay()
+	UIFrameFadeIn(t.display,1,0,1)
+	t.displayshown=true
+	t.displaybox:ClearFocus()
+	t.displaybox:SetText(t.missed or "")
+	t.displayscroll:UpdateScrollChildRect()
+end
+function t.hidedisplay()
+	t.display:Hide()
+	t.displayshown=nil
+end
+t.display=CreateFrame("Frame",a.."display",UIParent)
+t.hidedisplay()
+t.display:SetBackdrop({
+	bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
+	edgeFile="Interface\\Tooltips\\UI-Tooltip-Border",
+	insets={left=3,right=3,top=3,bottom=3},
+	edgeSize=12,tile=true,tileSize=12,})
+t.display:SetBackdropColor(0,0,0,1)
+t.display:SetClampedToScreen(true)
+t.display:SetFrameStrata("TOOLTIP")
+t.display:SetHeight(300)
+t.display:SetMovable(true)
+t.display:SetPoint("CENTER")
+t.display:SetScript("OnShow",t.showdisplay)
+t.display:SetScript("OnHide",t.hidedisplay)
+t.display:SetToplevel(true)
+t.display:SetWidth(500)
+t.displayclose=CreateFrame("Button",a.."displayclose",t.display,"OptionsButtonTemplate")
+t.displayclose:SetFrameLevel(6)
+t.displayclose:SetPoint("BOTTOMRIGHT",-12,12)
+t.displayclose:SetScript("OnClick",function() if IsModifierKeyDown() then SlashCmdList.TCFHCMD("disable") end t.hidedisplay() end)
+t.displayclose:SetText(CLOSE)
+t.displaydrag=CreateFrame("Button",a.."displaydrag",t.display)
+t.displaydrag:SetHeight(6)
+t.displaydrag:SetHighlightTexture("Interface\\FriendsFrame\\UI-FriendsFrame-HighlightBar")
+t.displaydrag:SetPoint("TOPLEFT",12,-6)
+t.displaydrag:SetPoint("TOPRIGHT",-12,-6)
+t.displaydrag:SetScript("OnMouseDown",function() t.display:StartMoving() end)
+t.displaydrag:SetScript("OnMouseUp",function() t.display:StopMovingOrSizing() end)
+t.displaymsg=t.display:CreateFontString(a.."displaymsg","OVERLAY","OptionsFontSmall")
+t.displaymsg:SetJustifyH("LEFT")
+t.displaymsg:SetPoint("BOTTOMLEFT",12,6)
+t.displaymsg:SetText("TrueChatFrameHistory has restored your ChatFrames\nThese messages appeared while the UI was loading\nYou can view this frame at any time by typing |cffffffff/tcfh show|r")
+t.displaymsg:SetHeight(t.displaymsg:GetStringHeight())
+t.displayscroll=CreateFrame("ScrollFrame",a.."displayscroll",t.display,"UIPanelScrollFrameTemplate")
+t.displayscroll:SetPoint("BOTTOMLEFT",t.displaymsg,"TOPLEFT",6,6)
+t.displayscroll:SetPoint("TOPRIGHT",t.displaydrag,"BOTTOMRIGHT",-24,-6)
+t.displaybox=CreateFrame("EditBox",a.."displaybox",t.displayscroll)
+t.displaybox:SetAutoFocus(false)
+t.displaybox:SetFontObject(Game12Font)
+t.displaybox:SetHeight(t.displayscroll:GetHeight())
+t.displaybox:SetMultiLine(true)
+t.displaybox:SetScript("OnEscapePressed",t.hidedisplay)
+t.displaybox:SetScript("OnTextChanged",t.showdisplay)
+t.displaybox:SetWidth(t.displayscroll:GetWidth())
+t.displayscroll:SetScrollChild(t.displaybox)
+
+ -- Credit: layout of this display came from !Swatter (part of Auctioneer)
+ -- http://wiki.norganna.org/Swatter http://zip.norganna.org/libs/!Swatter
