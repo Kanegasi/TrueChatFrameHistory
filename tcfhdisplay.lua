@@ -10,7 +10,7 @@ function t.hidedisplay()
 	t.display:Hide()
 	t.displayshown=nil
 end
-t.display=CreateFrame("Frame",a.."display",UIParent)
+t.display=CreateFrame("Frame",a.."display",UIParent,"BackdropTemplate")
 t.hidedisplay()
 t.display:SetBackdrop({
 	bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
@@ -27,7 +27,7 @@ t.display:SetScript("OnShow",t.showdisplay)
 t.display:SetScript("OnHide",t.hidedisplay)
 t.display:SetToplevel(true)
 t.display:SetWidth(500)
-t.displayclose=CreateFrame("Button",a.."displayclose",t.display,"OptionsButtonTemplate")
+t.displayclose=CreateFrame("Button",a.."displayclose",t.display,"UIPanelButtonTemplate")
 t.displayclose:SetFrameLevel(6)
 t.displayclose:SetPoint("BOTTOMRIGHT",-12,12)
 t.displayclose:SetScript("OnClick",function() if IsModifierKeyDown() then SlashCmdList.TCFHCMD("disable") end t.hidedisplay() end)
